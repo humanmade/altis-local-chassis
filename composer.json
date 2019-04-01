@@ -9,9 +9,20 @@
 			"email": "hello@humanmade.com"
 		}
 	],
+	"type": "composer-plugin",
+	"require": {
+		"composer-plugin-api": "^1.1",
+		"symfony/yaml": "^4.2"
+	},
 	"autoload": {
 		"files": [
 			"load.php"
+		],
+		"classmap": [
+			"inc/"
 		]
-	}
+	},
+    "extra": {
+        "class": "HM\\Platform\\Chassis\\ComposerPlugin"
+    }
 }
