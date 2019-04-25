@@ -121,7 +121,6 @@ class Command extends BaseCommand {
 				'Chassis/composer',
 				'Chassis/nodejs',
 				'Chassis/mcrypt',
-				'Chassis/Chassis-Minio',
 				'Chassis/Cavalcade',
 			],
 		];
