@@ -1,7 +1,7 @@
 {
 	"name": "humanmade/platform-local-chassis",
 	"description": "Human Made Platform Local Server",
-	"license": "GPL-2.0-or-later",
+	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Human Made",
