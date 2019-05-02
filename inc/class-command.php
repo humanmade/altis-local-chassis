@@ -112,16 +112,7 @@ class Command extends BaseCommand {
 			],
 			'multisite' => true,
 			'extensions' => [
-				'Chassis/phpdbg',
-				'shadyvb/chassis-redis',
-				'Chassis/Chassis-Elasticsearch',
-				'Chassis/v8js',
-				'Chassis/Tachyon',
-				'Chassis/intl',
-				'Chassis/composer',
-				'Chassis/nodejs',
-				'Chassis/mcrypt',
-				'Chassis/Cavalcade',
+				'humanmade/platform-chassis-extension',
 			],
 		];
 		$yaml = Yaml::dump( $config );
