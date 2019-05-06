@@ -3,6 +3,19 @@
 [Chassis](http://chassis.io/) is the bundled local development environment.
 
 
+## Setup
+
+To set up Chassis for HM Platform, run the following inside your project's directory:
+
+```
+composer chassis init
+```
+
+This will add Chassis to your development dependencies and prepare it to be run.
+
+You can then use the other `composer chassis` commands to manage your machine.
+
+
 ## Available Commands
 
 A number of convenience commands are available:
