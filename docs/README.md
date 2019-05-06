@@ -5,6 +5,8 @@
 
 ## Setup
 
+Chassis requires [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) to be installed on your system.
+
 To set up Chassis for HM Platform, run the following inside your project's directory:
 
 ```
