@@ -7,7 +7,7 @@
 
 Chassis requires [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) to be installed on your system.
 
-To set up Chassis for HM Platform, run the following inside your project's directory:
+To set up Chassis for Altis, run the following inside your project's directory:
 
 ```
 composer chassis init
@@ -41,6 +41,6 @@ We recommend the following common development tools:
 * [SequelPro](https://github.com/Chassis/SequelPro) - Adds a `vagrant sequel` command to instantly connect to your development MySQL server in [Sequel Pro](https://www.sequelpro.com/)
 * [XDebug](https://github.com/Chassis/Xdebug) - Installs XDebug for interactive debugging in your editor
 * [phpdbg](https://github.com/Chassis/phpdbg) - Installs phpdbg for interactive command-line debugging
-* [Mailhog](https://github.com/Chassis/MailHog) - Captures outbound email from Platform and provides a fake inbox
+* [Mailhog](https://github.com/Chassis/MailHog) - Captures outbound email from Altis and provides a fake inbox
 
 Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) for information about installing additional extensions.

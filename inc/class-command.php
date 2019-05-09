@@ -1,6 +1,6 @@
 <?php
 
-namespace HM\Platform\Chassis;
+namespace Altis\Chassis;
 
 use Composer\Command\BaseCommand;
 use Exception;
@@ -108,7 +108,7 @@ class Command extends BaseCommand {
 				'content' => 'content',
 			],
 			'hosts' => [
-				'platform.local',
+				'altis.local',
 			],
 			'multisite' => true,
 			'extensions' => [
