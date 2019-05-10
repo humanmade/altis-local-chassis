@@ -1,6 +1,6 @@
 <?php
 
-namespace HM\Platform\Chassis;
+namespace Altis\Chassis;
 
 use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
 

@@ -1,6 +1,6 @@
 {
 	"name": "humanmade/platform-local-chassis",
-	"description": "Human Made Platform Local Server",
+	"description": "Chassis module for Altis",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -22,6 +22,6 @@
 		]
 	},
     "extra": {
-        "class": "HM\\Platform\\Chassis\\ComposerPlugin"
+        "class": "Altis\\Chassis\\ComposerPlugin"
     }
 }
