@@ -1,5 +1,5 @@
 {
-	"name": "humanmade/platform-local-chassis",
+	"name": "altis/local-chassis",
 	"description": "Chassis module for Altis",
 	"license": "GPL-2.0",
 	"authors": [
