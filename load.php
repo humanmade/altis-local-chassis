@@ -1,6 +1,6 @@
 <?php
 
-namespace Altis\Local_Chassis;
+namespace Altis\Local_Chassis;  // @codingStandardsIgnoreLine
 
 use function Altis\get_environment_architecture;
 use function Altis\register_module;
