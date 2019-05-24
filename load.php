@@ -1,15 +1,17 @@
 <?php
 
-namespace Altis\Local_Chassis;
+namespace Altis\Local_Chassis;  // @codingStandardsIgnoreLine
 
 use function Altis\get_environment_architecture;
 use function Altis\register_module;
 
 // Load database configuration on Chassis installs.
 if ( file_exists( '/vagrant/local-config-db.php' ) ) {
+	 // @codingStandardsIgnoreStart
 	define( 'HM_ENV_ARCHITECTURE', 'chassis' );
 	require_once '/vagrant/local-config-db.php';
 	require_once '/vagrant/local-config-extensions.php';
+	 // @codingStandardsIgnoreEnd
 }
 
 // Don't self-initialize if this is not an Altis execution.
