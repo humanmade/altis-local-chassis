@@ -116,6 +116,7 @@ class Command extends BaseCommand {
 			],
 		];
 		$yaml = Yaml::dump( $config );
+		// @codingStandardsIgnoreLine
 		$success = file_put_contents( $chassis_dir . DIRECTORY_SEPARATOR . 'config.local.yaml', $yaml );
 		if ( ! $success ) {
 			$output->writeln( '<error>Could not write Chassis config</error>' );
