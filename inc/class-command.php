@@ -114,6 +114,12 @@ class Command extends BaseCommand {
 			'extensions' => [
 				'humanmade/platform-chassis-extension',
 			],
+			'elasticsearch' => [
+				'plugins' => [
+					'analysis-icu',
+					'ingest-attachment',
+				],
+			],
 		];
 		$yaml = Yaml::dump( $config );
 		// @codingStandardsIgnoreLine
