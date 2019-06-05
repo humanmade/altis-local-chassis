@@ -102,6 +102,7 @@ class Command extends BaseCommand {
 
 		// Write the default config.
 		$config = [
+			'php' => '7.2',
 			'paths' => [
 				'base' => '..',
 				'wp' => 'wordpress',
