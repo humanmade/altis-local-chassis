@@ -65,6 +65,9 @@ class Command extends BaseCommand {
 			case 'stop':
 				return $this->stop( $input, $output );
 
+			case 'secure':
+				return $this->secure( $input, $output );
+
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
 		}
@@ -139,7 +142,17 @@ class Command extends BaseCommand {
 			return;
 		}
 
-		return $this->run_command( 'vagrant up' );
+		$this->start( $input, $output );
+
+		// And run the initial setup, if the user wants to.
+		$question = new ConfirmationQuestion( 'Install SSL certificate? [Y/n] ', true );
+		if ( ! $questioner->ask( $input, $output, $question ) ) {
+			return;
+		}
+
+		$this->secure( $input, $output );
+
+		return;
 	}
 
 	/**
@@ -181,5 +194,44 @@ class Command extends BaseCommand {
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant halt' );
+	}
+
+	/**
+	 * Command to install the generated SSL cert for local HTTPS.
+	 */
+	protected function secure( InputInterface $input, OutputInterface $output ) {
+		$chassis_dir = $this->get_chassis_dir();
+		$config_file = $chassis_dir . DIRECTORY_SEPARATOR . 'config.local.yaml';
+
+		// Pre-flight.
+		if ( ! file_exists( $config_file ) ) {
+			$output->writeln( '<warning>The config file at chassis/config.local.yaml does not exist yet. Run `composer chassis init` first.</warning>' );
+			return 1;
+		}
+
+		// Fimd cert file.
+		$config = Yaml::parseFile( $config_file );
+		$cert_file = $config['hosts'][0] . '.cert';
+		$cert_path = $chassis_dir . DIRECTORY_SEPARATOR . $cert_file;
+
+		if ( ! file_exists( $cert_path ) ) {
+			$output->writeln( sprintf( '<warning>The SSL certificate file "%s" does not exist yet. Run `composer chassis start` first to provision the VM and generate the file.</warning>', $cert_file ) );
+			return 1;
+		}
+
+		// Run OS specific commands.
+		$os = php_uname();
+
+		if ( strpos( $os, 'Darwin' ) !== false ) {
+			return $this->run_command( sprintf( 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "%s"', $cert_path ) );
+		}
+
+		if ( strpos( $os, 'Windows' ) !== false ) {
+			return $this->run_command( sprintf( 'certutil -enterprise -f -v -AddStore "Root" "%s"', $cert_path ) );
+		}
+
+		$output->writeln( sprintf( "<warning>This command is not currently supported on your OS:\n%s</warning>", $os ) );
+		$output->writeln( 'Please check the documentation and if no solution is available you can log an issue to get suppport at https://github.com/humanmade/altis-local-chassis/issues' );
+		return 0;
 	}
 }

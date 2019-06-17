@@ -26,6 +26,7 @@ A number of convenience commands are available:
 * `composer chassis start` - Starts the virtual machine.
 * `composer chassis stop` - Stops the virtual machine.
 * `composer chassis status` - Displays the status of the virtual machine.
+* `composer chassis secure` - Installs the generated SSL certificate to your trusted certificate store.
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
 
@@ -44,3 +45,18 @@ We recommend the following common development tools:
 * [Mailhog](https://github.com/Chassis/MailHog) - Captures outbound email from Altis and provides a fake inbox
 
 Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) for information about installing additional extensions.
+
+
+## Using HTTPS locally
+
+Local Chassis will generate an SSL certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.crt` but if you have customised the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
+
+Once your VM is running run the following command to install the certificate:
+
+```
+composer chassis secure
+```
+
+You should now be able to browse your local environment via HTTPS without certificate warnings.
+
+**Note:** the above command only supports OSX and Windows currently.
