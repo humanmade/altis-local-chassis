@@ -250,7 +250,9 @@ class Command extends BaseCommand {
 		}
 
 		if ( $status === 0 ) {
-			return $output->writeln( '<info>The HTTPS certificate was installed successfully!</info>' );
+			$output->writeln( '<info>The HTTPS certificate was installed successfully!</info>' );
+			$output->writeln( sprintf( '<info>You can now browse to https://%s/</info>', $config['hosts'][0] ) );
+			return $status;
 		} else {
 			$output->writeln( '<error>The was an error adding the HTTPS certificate. You may need to do this manually or contact support for further assistance.</error>' );
 			return $status;
