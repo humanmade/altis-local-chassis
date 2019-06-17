@@ -65,6 +65,12 @@ class Command extends BaseCommand {
 			case 'stop':
 				return $this->stop( $input, $output );
 
+			case 'provision':
+				return $this->provision( $input, $output );
+
+			case 'ssh':
+				return $this->ssh( $input, $output );
+
 			case 'secure':
 				return $this->secure( $input, $output );
 
@@ -145,7 +151,7 @@ class Command extends BaseCommand {
 		$this->start( $input, $output );
 
 		// And run the initial setup, if the user wants to.
-		$question = new ConfirmationQuestion( 'Install SSL certificate? [Y/n] ', true );
+		$question = new ConfirmationQuestion( 'Install HTTPS certificate? [Y/n] ', true );
 		if ( ! $questioner->ask( $input, $output, $question ) ) {
 			return;
 		}
@@ -197,41 +203,61 @@ class Command extends BaseCommand {
 	}
 
 	/**
-	 * Command to install the generated SSL cert for local HTTPS.
+	 * Command to provision the virtual machine.
+	 */
+	protected function provision( InputInterface $input, OutputInterface $output ) {
+		return $this->run_command( 'vagrant provision' );
+	}
+
+	/**
+	 * Command to ssh to the virtual machine.
+	 */
+	protected function ssh( InputInterface $input, OutputInterface $output ) {
+		return $this->run_command( 'vagrant ssh' );
+	}
+
+	/**
+	 * Command to install the generated HTTPS cert.
 	 */
 	protected function secure( InputInterface $input, OutputInterface $output ) {
 		$chassis_dir = $this->get_chassis_dir();
 		$config_file = $chassis_dir . DIRECTORY_SEPARATOR . 'config.local.yaml';
 
-		// Pre-flight.
+		// Pre-flight checks.
 		if ( ! file_exists( $config_file ) ) {
 			$output->writeln( '<warning>The config file at chassis/config.local.yaml does not exist yet. Run `composer chassis init` first.</warning>' );
 			return 1;
 		}
 
-		// Fimd cert file.
+		// Get certificate file path.
 		$config = Yaml::parseFile( $config_file );
 		$cert_file = $config['hosts'][0] . '.cert';
 		$cert_path = $chassis_dir . DIRECTORY_SEPARATOR . $cert_file;
 
 		if ( ! file_exists( $cert_path ) ) {
-			$output->writeln( sprintf( '<warning>The SSL certificate file "%s" does not exist yet. Run `composer chassis start` first to provision the VM and generate the file.</warning>', $cert_file ) );
+			$output->writeln( sprintf( '<warning>The HTTPS certificate file "%s" does not exist yet. Run `composer chassis start` first to provision the VM and generate the file.</warning>', $cert_file ) );
 			return 1;
 		}
 
 		// Run OS specific commands.
 		$os = php_uname();
+		$status = 0;
 
 		if ( strpos( $os, 'Darwin' ) !== false ) {
-			return $this->run_command( sprintf( 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "%s"', $cert_path ) );
+			$status = $this->run_command( sprintf( 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "%s"', $cert_path ) );
+		} elseif ( strpos( $os, 'Windows' ) !== false ) {
+			$status = $this->run_command( sprintf( 'certutil -enterprise -f -v -AddStore "Root" "%s"', $cert_path ) );
 		}
 
-		if ( strpos( $os, 'Windows' ) !== false ) {
-			return $this->run_command( sprintf( 'certutil -enterprise -f -v -AddStore "Root" "%s"', $cert_path ) );
+		if ( $status === 0 ) {
+			return $output->writeln( '<info>The HTTPS certificate was installed successfully!</info>' );
+		} else {
+			$output->writeln( '<error>The was an error adding the HTTPS certificate. You may need to do this manually or contact support for further assistance.</error>' );
+			return $status;
 		}
 
 		$output->writeln( sprintf( "<warning>This command is not currently supported on your OS:\n%s</warning>", $os ) );
 		$output->writeln( 'Please check the documentation and if no solution is available you can log an issue to get suppport at https://github.com/humanmade/altis-local-chassis/issues' );
-		return 0;
+		return 1;
 	}
 }

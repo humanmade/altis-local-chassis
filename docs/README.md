@@ -49,7 +49,7 @@ Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) fo
 
 ## Using HTTPS locally
 
-Local Chassis will generate an SSL certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.crt` but if you have customised the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
+Local Chassis will generate a HTTPS security certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.cert` but if you have customised the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
 
 Once your VM is running run the following command to install the certificate:
 
