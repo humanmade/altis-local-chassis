@@ -65,6 +65,6 @@ You should now be able to browse your local environment via HTTPS without certif
 
 Because the Firefox browser uses its own certificate store you will either need to install the generated certificate file manually or alternatively follow these steps:
 
-1. Open Firefix
+1. Open Firefox
 1. Browse to `about:config`
 1. Set `security.enterprise_roots.enabled` to true
