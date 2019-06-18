@@ -241,7 +241,7 @@ class Command extends BaseCommand {
 
 		// Run OS specific commands.
 		$os = php_uname();
-		$status = 0;
+		$status = false;
 
 		if ( strpos( $os, 'Darwin' ) !== false ) {
 			$status = $this->run_command( sprintf( 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "%s"', $cert_path ) );
@@ -253,7 +253,7 @@ class Command extends BaseCommand {
 			$output->writeln( '<info>The HTTPS certificate was installed successfully!</info>' );
 			$output->writeln( sprintf( '<info>You can now browse to https://%s/</info>', $config['hosts'][0] ) );
 			return $status;
-		} else {
+		} elseif ( $status !== false ) {
 			$output->writeln( '<error>The was an error adding the HTTPS certificate. You may need to do this manually or contact support for further assistance.</error>' );
 			return $status;
 		}
