@@ -22,7 +22,7 @@ if ( file_exists( '/vagrant/local-config-db.php' ) ) {
 	//
 	// As a workaround, we remove the "direct" added hook via the PHP global, and just call
 	// add_action on the function that was registered.
-	if ( isset( $GLOBALS['wp_filter']['muplugins_loaded'][10]['chassis-hosts'] ) ) {
+	if ( is_array( $GLOBALS['wp_filter']['muplugins_loaded'] ) && isset( $GLOBALS['wp_filter']['muplugins_loaded'][10]['chassis-hosts'] ) ) {
 		$function = $GLOBALS['wp_filter']['muplugins_loaded'][10]['chassis-hosts']['function'];
 		unset( $GLOBALS['wp_filter']['muplugins_loaded'] );
 		add_action( 'muplugins_loaded', $function );
