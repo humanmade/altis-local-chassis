@@ -68,8 +68,8 @@ class Command extends BaseCommand {
 			case 'provision':
 				return $this->provision( $input, $output );
 
-			case 'ssh':
-				return $this->ssh( $input, $output );
+			case 'shell':
+				return $this->shell( $input, $output );
 
 			case 'secure':
 				return $this->secure( $input, $output );
@@ -210,9 +210,9 @@ class Command extends BaseCommand {
 	}
 
 	/**
-	 * Command to ssh to the virtual machine.
+	 * Command to ssh in to the virtual machine.
 	 */
-	protected function ssh( InputInterface $input, OutputInterface $output ) {
+	protected function shell( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant ssh' );
 	}
 
