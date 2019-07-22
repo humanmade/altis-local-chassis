@@ -27,6 +27,7 @@ A number of convenience commands are available:
 * `composer chassis stop` - Stops the virtual machine.
 * `composer chassis status` - Displays the status of the virtual machine.
 * `composer chassis secure` - Installs the generated SSL certificate to your trusted certificate store.
+* `composer chassis shell` - Logs in to the virtual machine.
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
 

@@ -68,6 +68,9 @@ class Command extends BaseCommand {
 			case 'secure':
 				return $this->secure( $input, $output );
 
+			case 'shell':
+				return $this->shell( $input, $output );
+
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
 		}
@@ -241,5 +244,12 @@ class Command extends BaseCommand {
 		$output->writeln( sprintf( "<warning>This command is not currently supported on your OS:\n%s</warning>", $os ) );
 		$output->writeln( 'Please check the documentation and if no solution is available you can log an issue to get suppport at https://github.com/humanmade/altis-local-chassis/issues' );
 		return 1;
+	}
+
+	/**
+	 * Command to ssh in to the virtual machine.
+	 */
+	protected function shell( InputInterface $input, OutputInterface $output ) {
+		return $this->run_command( 'vagrant ssh' );
 	}
 }
