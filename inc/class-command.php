@@ -65,9 +65,6 @@ class Command extends BaseCommand {
 			case 'stop':
 				return $this->stop( $input, $output );
 
-			case 'shell':
-				return $this->shell( $input, $output );
-
 			case 'secure':
 				return $this->secure( $input, $output );
 
@@ -197,13 +194,6 @@ class Command extends BaseCommand {
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant halt' );
-	}
-
-	/**
-	 * Command to ssh in to the virtual machine.
-	 */
-	protected function shell( InputInterface $input, OutputInterface $output ) {
-		return $this->run_command( 'vagrant ssh' );
 	}
 
 	/**
