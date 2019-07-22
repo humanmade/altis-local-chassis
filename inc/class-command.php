@@ -65,9 +65,6 @@ class Command extends BaseCommand {
 			case 'stop':
 				return $this->stop( $input, $output );
 
-			case 'provision':
-				return $this->provision( $input, $output );
-
 			case 'shell':
 				return $this->shell( $input, $output );
 
@@ -200,13 +197,6 @@ class Command extends BaseCommand {
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant halt' );
-	}
-
-	/**
-	 * Command to provision the virtual machine.
-	 */
-	protected function provision( InputInterface $input, OutputInterface $output ) {
-		return $this->run_command( 'vagrant provision' );
 	}
 
 	/**
