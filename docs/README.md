@@ -62,6 +62,14 @@ You should now be able to browse your local environment via HTTPS without certif
 
 **Note:** this command only supports OSX and Windows currently.
 
+### Windows
+
+On Windows systems note that the `composer chassis secure` command requires adminstrator privileges.
+
+In order for it to work you'll need to start your command prompt application such as GitBash by right-clicking the icon and selecting "Run as Administrator" from the context menu.
+
+You can run the entire `composer chassis init` command in the administrator context but you should be sure that you are comfortable with everything the command is doing beforehand.
+
 ### Firefox
 
 Because the Firefox browser uses its own certificate store you will either need to install the generated certificate file manually or alternatively follow these steps:

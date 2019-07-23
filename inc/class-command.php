@@ -238,6 +238,9 @@ class Command extends BaseCommand {
 			return $status;
 		} elseif ( $status !== false ) {
 			$output->writeln( '<error>The was an error adding the HTTPS certificate. You may need to do this manually or contact support for further assistance.</error>' );
+			if ( strpos( $os, 'Windows' ) !== false ) {
+				$output->writeln( '<error>You may need to run this command again with administrator privileges. Right click on your command prompt app and choose "Run as Administrator".</error>' );
+			}
 			return $status;
 		}
 
