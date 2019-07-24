@@ -26,6 +26,7 @@ A number of convenience commands are available:
 * `composer chassis start` - Starts the virtual machine.
 * `composer chassis stop` - Stops the virtual machine.
 * `composer chassis status` - Displays the status of the virtual machine.
+* `composer chassis secure` - Installs the generated SSL certificate to your trusted certificate store.
 * `composer chassis shell` - Logs in to the virtual machine.
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
@@ -45,3 +46,34 @@ We recommend the following common development tools:
 * [Mailhog](https://github.com/Chassis/MailHog) - Captures outbound email from Altis and provides a fake inbox
 
 Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) for information about installing additional extensions.
+
+
+## Using HTTPS locally
+
+Local Chassis will generate an HTTPS security certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.cert` but if you have customised the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
+
+Once your VM is running run the following command to install the certificate:
+
+```
+composer chassis secure
+```
+
+You should now be able to browse your local environment via HTTPS without certificate warnings.
+
+**Note:** this command only supports OSX and Windows currently.
+
+### Windows
+
+On Windows systems note that the `composer chassis secure` command requires adminstrator privileges.
+
+In order for it to work you'll need to start your command prompt application such as GitBash by right-clicking the icon and selecting "Run as Administrator" from the context menu.
+
+You can run the entire `composer chassis init` command in the administrator context but you should be sure that you are comfortable with everything the command is doing beforehand.
+
+### Firefox
+
+Because the Firefox browser uses its own certificate store you will either need to install the generated certificate file manually or alternatively follow these steps:
+
+1. Open Firefox
+1. Browse to `about:config`
+1. Set `security.enterprise_roots.enabled` to true

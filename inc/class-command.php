@@ -65,6 +65,9 @@ class Command extends BaseCommand {
 			case 'stop':
 				return $this->stop( $input, $output );
 
+			case 'secure':
+				return $this->secure( $input, $output );
+
 			case 'shell':
 				return $this->shell( $input, $output );
 
@@ -142,7 +145,17 @@ class Command extends BaseCommand {
 			return;
 		}
 
-		return $this->run_command( 'vagrant up' );
+		$this->start( $input, $output );
+
+		// And run the initial setup, if the user wants to.
+		$question = new ConfirmationQuestion( 'Install HTTPS certificate? [Y/n] ', true );
+		if ( ! $questioner->ask( $input, $output, $question ) ) {
+			return;
+		}
+
+		$this->secure( $input, $output );
+
+		return;
 	}
 
 	/**
@@ -184,6 +197,56 @@ class Command extends BaseCommand {
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant halt' );
+	}
+
+	/**
+	 * Command to install the generated HTTPS cert.
+	 */
+	protected function secure( InputInterface $input, OutputInterface $output ) {
+		$chassis_dir = $this->get_chassis_dir();
+		$config_file = $chassis_dir . DIRECTORY_SEPARATOR . 'config.local.yaml';
+
+		// Pre-flight checks.
+		if ( ! file_exists( $config_file ) ) {
+			$output->writeln( '<warning>The config file at chassis/config.local.yaml does not exist yet. Run `composer chassis init` first.</warning>' );
+			return 1;
+		}
+
+		// Get certificate file path.
+		$config = Yaml::parseFile( $config_file );
+		$cert_file = $config['hosts'][0] . '.cert';
+		$cert_path = $chassis_dir . DIRECTORY_SEPARATOR . $cert_file;
+
+		if ( ! file_exists( $cert_path ) ) {
+			$output->writeln( sprintf( '<warning>The HTTPS certificate file "%s" does not exist yet. Run `composer chassis start` first to provision the VM and generate the file.</warning>', $cert_file ) );
+			return 1;
+		}
+
+		// Run OS specific commands.
+		$os = php_uname();
+		$status = false;
+
+		if ( strpos( $os, 'Darwin' ) !== false ) {
+			$status = $this->run_command( sprintf( 'sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "%s"', $cert_path ) );
+		} elseif ( strpos( $os, 'Windows' ) !== false ) {
+			$status = $this->run_command( sprintf( 'certutil -enterprise -f -v -AddStore "Root" "%s"', $cert_path ) );
+		}
+
+		if ( $status === 0 ) {
+			$output->writeln( '<info>The HTTPS certificate was installed successfully!</info>' );
+			$output->writeln( sprintf( '<info>You can now browse to https://%s/</info>', $config['hosts'][0] ) );
+			return $status;
+		} elseif ( $status !== false ) {
+			$output->writeln( '<error>The was an error adding the HTTPS certificate. You may need to do this manually or contact support for further assistance.</error>' );
+			if ( strpos( $os, 'Windows' ) !== false ) {
+				$output->writeln( '<error>You may need to run this command again with administrator privileges. Right click on your command prompt app and choose "Run as Administrator".</error>' );
+			}
+			return $status;
+		}
+
+		$output->writeln( sprintf( "<warning>This command is not currently supported on your OS:\n%s</warning>", $os ) );
+		$output->writeln( 'Please check the documentation and if no solution is available you can log an issue to get suppport at https://github.com/humanmade/altis-local-chassis/issues' );
+		return 1;
 	}
 
 	/**
