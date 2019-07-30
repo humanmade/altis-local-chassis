@@ -1,5 +1,7 @@
 # Local Chassis
 
+![](./assets/banner-local-server.png)
+
 [Chassis](http://chassis.io/) is the bundled local development environment.
 
 
