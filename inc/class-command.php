@@ -111,6 +111,7 @@ class Command extends BaseCommand {
 
 		// Write the default config.
 		$config = [
+			'machine_name' => $hosts[0],
 			'php' => '7.2',
 			'paths' => [
 				'base' => '..',
