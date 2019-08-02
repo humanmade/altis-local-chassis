@@ -106,6 +106,9 @@ class Command extends BaseCommand {
 			return $status;
 		}
 
+		// Get project host names from config.
+		$hosts = $this->get_project_hosts();
+
 		// Write the default config.
 		$config = [
 			'php' => '7.2',
@@ -114,9 +117,7 @@ class Command extends BaseCommand {
 				'wp' => 'wordpress',
 				'content' => 'content',
 			],
-			'hosts' => [
-				'altis.local',
-			],
+			'hosts' => $hosts,
 			'multisite' => true,
 			'extensions' => [
 				'humanmade/platform-chassis-extension',
@@ -254,5 +255,31 @@ class Command extends BaseCommand {
 	 */
 	protected function shell( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant ssh' );
+	}
+
+	/**
+	 * Get the name of the project host names from the local config.
+	 *
+	 * @return array
+	 */
+	protected function get_project_hosts() : array {
+
+		$composer_json = json_decode( file_get_contents( getcwd() . '/composer.json' ), true );
+
+		if ( isset( $composer_json['extra']['altis']['modules']['local-chassis']['hosts'] ) ) {
+			$hosts = (array) $composer_json['extra']['altis']['modules']['local-chassis']['hosts'];
+		} else {
+			$hosts = [ basename( getcwd() ) ];
+		}
+
+		// Ensure .local suffixes.
+		$hosts = array_map( function ( $host ) {
+			if ( ! preg_match( '\.local$', $host ) ) {
+				$host = "{$host}.local";
+			}
+			return $host;
+		}, $hosts );
+
+		return $hosts;
 	}
 }
