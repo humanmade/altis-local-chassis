@@ -5,6 +5,29 @@
 [Chassis](http://chassis.io/) is the bundled local development environment.
 
 
+## Configuration
+
+It is possible to configure the host names for your local environment thruogh the `composer.json` file. This should be done before running the setup steps below, otherwise you may need to edit the generated `chassis/config.local.yaml` file directly.
+
+```json
+{
+	"extra": {
+		"altis": {
+			"modules": {
+				"local-chassis": {
+					"hosts": [
+						"project.local",
+						"subdomain.project.local",
+						"alt-project.local"
+					]
+				}
+			}
+		}
+	}
+}
+```
+
+
 ## Setup
 
 Chassis requires [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) to be installed on your system.

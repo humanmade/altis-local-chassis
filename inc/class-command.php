@@ -273,11 +273,13 @@ class Command extends BaseCommand {
 			$hosts = [ basename( getcwd() ) ];
 		}
 
-		// Ensure .local suffixes.
 		$hosts = array_map( function ( $host ) {
+			// Ensure .local suffixes.
 			if ( ! preg_match( '\.local$', $host ) ) {
 				$host = "{$host}.local";
 			}
+			// Sanitize host name.
+			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
 			return $host;
 		}, $hosts );
 
