@@ -275,7 +275,7 @@ class Command extends BaseCommand {
 
 		$hosts = array_map( function ( $host ) {
 			// Ensure .local suffixes.
-			if ( ! preg_match( '\.local$', $host ) ) {
+			if ( ! preg_match( '/\.local$/', $host ) ) {
 				$host = "{$host}.local";
 			}
 			// Sanitize host name.
