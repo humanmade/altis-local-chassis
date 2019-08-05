@@ -61,7 +61,7 @@ You can use the low-level [Vagrant commands](https://www.vagrantup.com/docs/cli/
 
 ## Extensions
 
-Chassis has a [number of extensions](https://beta.chassis.io/extensions/) available which can be used to add additional functionality to your development environment. By default, your Local Chassis install is set up to mirror the HM Cloud infrastructure, but you may wish to enable other tools for local development.
+Chassis has a [number of extensions](https://beta.chassis.io/extensions/) available which can be used to add additional functionality to your development environment. By default, your Local Chassis install is set up to mirror the Altis infrastructure, but you may wish to enable other tools for local development.
 
 We recommend the following common development tools:
 
