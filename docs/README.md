@@ -7,7 +7,7 @@
 
 ## Configuration
 
-It is possible to configure the host names for your local environment thruogh the `composer.json` file. This should be done before running the setup steps below, otherwise you may need to edit the generated `chassis/config.local.yaml` file directly.
+It is possible to configure the host names for your local environment through the `composer.json` file. This should be done before running the setup steps below, otherwise you may need to edit the generated `chassis/config.local.yaml` file directly.
 
 ```json
 {
@@ -47,7 +47,7 @@ You can then use the other `composer chassis` commands to manage your machine.
 
 A number of convenience commands are available:
 
-* `composer chassis init` - Initialises your local Chassis setup and starts the virtual machine.
+* `composer chassis init` - Initializes your local Chassis setup and starts the virtual machine.
 * `composer chassis start` - Starts the virtual machine.
 * `composer chassis stop` - Stops the virtual machine.
 * `composer chassis status` - Displays the status of the virtual machine.
@@ -75,7 +75,7 @@ Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) fo
 
 ## Using HTTPS locally
 
-Local Chassis will generate an HTTPS security certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.cert` but if you have customised the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
+Local Chassis will generate an HTTPS security certificate you can use to run your local environment over HTTPS. The file will be located in the `/chassis` directory, by default it will be called `altis.local.cert` but if you have customized the `hosts` in `config.local.yaml` it will use the first host name in that list for the file name.
 
 Once your VM is running run the following command to install the certificate:
 
@@ -89,7 +89,7 @@ You should now be able to browse your local environment via HTTPS without certif
 
 ### Windows
 
-On Windows systems note that the `composer chassis secure` command requires adminstrator privileges.
+On Windows systems note that the `composer chassis secure` command requires administrator privileges.
 
 In order for it to work you'll need to start your command prompt application such as GitBash by right-clicking the icon and selecting "Run as Administrator" from the context menu.
 

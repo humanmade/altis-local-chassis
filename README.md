@@ -6,12 +6,12 @@
 
 ## Local Chassis
 
-[Chassis](https://github.com/Chassis/Chassis) is an extensible local development server built on [Vagrant](https://www.vagrantup.com/). 
+[Chassis](https://github.com/Chassis/Chassis) is an extensible local development server built on [Vagrant](https://www.vagrantup.com/).
 
 To get started once you have set up your Altis project you can run the following commands:
 
 ```
-# Initialise the virtual machine 
+# Initialize the virtual machine 
 composer chassis init
 
 # Start the VM
