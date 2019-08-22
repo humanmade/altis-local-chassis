@@ -121,7 +121,7 @@ class Command extends BaseCommand {
 			'hosts' => $hosts,
 			'multisite' => true,
 			'extensions' => [
-				'humanmade/platform-chassis-extension',
+				'humanmade/platform_chassis_extension',
 			],
 			'elasticsearch' => [
 				'plugins' => [
