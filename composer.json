@@ -14,14 +14,12 @@
 		"symfony/yaml": "^4.2"
 	},
 	"autoload": {
-		"files": [
-			"load.php"
-		],
 		"classmap": [
 			"inc/"
 		]
 	},
-    "extra": {
-        "class": "Altis\\Chassis\\ComposerPlugin"
-    }
+	"extra": {
+		"class": "Altis\\Chassis\\ComposerPlugin",
+		"altis": {}
+	}
 }
