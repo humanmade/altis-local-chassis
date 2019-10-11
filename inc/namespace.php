@@ -17,7 +17,6 @@ function bootstrap() {
  * @return array the adjusted mapping of folders
  */
 function set_file_path_map( array $map ) : array {
-	// Chassis and Local Server
 	if ( ! file_exists( '/etc/chassis-constants' ) ) {
 		return $map;
 	}
