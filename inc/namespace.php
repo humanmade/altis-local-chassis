@@ -14,7 +14,7 @@ function bootstrap() {
  * original values on the host.
  *
  * @param array $map Map of guest path => host path
- * @return array the adjusted mapping of folders
+ * @return array Adjusted mapping of folders
  */
 function set_file_path_map( array $map ) : array {
 	if ( ! file_exists( '/etc/chassis-constants' ) ) {
