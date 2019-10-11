@@ -13,7 +13,7 @@ function bootstrap() {
  * Enables Query Monitor to map paths to their
  * original values on the host.
  *
- * @param array $map an associative array of folders as keys, and their mappings as values
+ * @param array $map Map of guest path => host path
  * @return array the adjusted mapping of folders
  */
 function set_file_path_map( array $map ) : array {
