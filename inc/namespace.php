@@ -10,8 +10,7 @@ function bootstrap() {
 }
 
 /**
- * Enables Query Monitor to map paths to their
- * original values on the host.
+ * Enables Query Monitor to map paths to their original values on the host.
  *
  * @param array $map Map of guest path => host path
  * @return array Adjusted mapping of folders
