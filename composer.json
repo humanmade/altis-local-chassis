@@ -15,13 +15,14 @@
 	},
 	"autoload": {
 		"files": [
-			"load.php"
+			"load.php",
+			"inc/namespace.php"
 		],
 		"classmap": [
 			"inc/"
 		]
 	},
     "extra": {
-        "class": "Altis\\Chassis\\ComposerPlugin"
+        "class": "Altis\\Local_Chassis\\ComposerPlugin"
     }
 }
