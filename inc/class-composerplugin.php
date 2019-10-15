@@ -1,6 +1,6 @@
 <?php
 
-namespace Altis\Chassis;
+namespace Altis\Local_Chassis;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
