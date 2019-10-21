@@ -14,12 +14,15 @@
 		"symfony/yaml": "^4.2"
 	},
 	"autoload": {
+		"files": [
+			"inc/namespace.php"
+		],
 		"classmap": [
 			"inc/"
 		]
 	},
 	"extra": {
-		"class": "Altis\\Chassis\\ComposerPlugin",
+		"class": "Altis\\Local_Chassis\\ComposerPlugin",
 		"altis": {}
 	}
 }
