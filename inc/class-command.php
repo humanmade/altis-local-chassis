@@ -248,27 +248,6 @@ class Command extends BaseCommand {
 	}
 
 	/**
-	 * Get the name of the project host names from the local config.
-	 *
-	 * @return array
-	 */
-	protected function get_project_hosts() : array {
-		$hosts = (array) ( $this->get_config()['hosts'] ?? [ basename( $this->get_root_dir() ) ] );
-
-		$hosts = array_map( function ( $host ) {
-			// Ensure .local suffixes.
-			if ( ! preg_match( '/\.local$/', $host ) ) {
-				$host = "{$host}.local";
-			}
-			// Sanitize host name.
-			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
-			return $host;
-		}, $hosts );
-
-		return $hosts;
-	}
-
-	/**
 	 * Get the root directory path for the project.
 	 *
 	 * @return string
@@ -296,19 +275,17 @@ class Command extends BaseCommand {
 	 * @return bool Returns false if the file write fails.
 	 */
 	protected function write_config_file() : bool {
-		// Get project host names from config.
-		$hosts = $this->get_project_hosts();
-
 		// Write the default config.
 		$config = [
-			'machine_name' => $hosts[0],
 			'php' => '7.2',
 			'paths' => [
 				'base' => '..',
 				'wp' => 'wordpress',
 				'content' => 'content',
 			],
-			'hosts' => $hosts,
+			'hosts' => [
+				basename( $this->get_root_dir() ),
+			],
 			'multisite' => true,
 			'extensions' => [
 				'humanmade/platform_chassis_extension',
@@ -324,6 +301,20 @@ class Command extends BaseCommand {
 		// Merge config from composer.json.
 		$overrides = $this->get_config();
 		$config = $this->merge_config( $config, $overrides );
+
+		// Sanitise hosts.
+		$config['hosts'] = array_map( function ( $host ) {
+			// Ensure .local suffixes.
+			if ( ! preg_match( '/\.local$/', $host ) ) {
+				$host = "{$host}.local";
+			}
+			// Sanitize host name.
+			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
+			return $host;
+		}, $config['hosts'] );
+
+		// Set the machine name.
+		$config['machine_name'] = $config['hosts'][0];
 
 		// Remove the enabled setting.
 		unset( $config['enabled'] );
