@@ -29,6 +29,10 @@ class Command extends BaseCommand {
 			InputArgument::REQUIRED,
 			'Subcommand to run'
 		);
+		$this->addArgument(
+			'options',
+			InputArgument::IS_ARRAY
+		);
 	}
 
 	/**
@@ -70,6 +74,9 @@ class Command extends BaseCommand {
 
 			case 'shell':
 				return $this->shell( $input, $output );
+
+			case 'exec':
+				return $this->exec( $input, $output );
 
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
@@ -256,6 +263,16 @@ class Command extends BaseCommand {
 	 */
 	protected function shell( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant ssh' );
+	}
+
+	/**
+	 * Command to pass a command in to the virtual machine.
+	 */
+	protected function exec( InputInterface $input, OutputInterface $output ) {
+		$command = implode( ' ', $input->getArgument( 'options' ) );
+		$command = escapeshellcmd( $command );
+
+		return $this->run_command( sprintf( 'vagrant ssh -c "cd /chassis && %s"', $command ) );
 	}
 
 	/**

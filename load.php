@@ -7,11 +7,15 @@ use function Altis\register_module;
 
 // Load database configuration on Chassis installs.
 if ( file_exists( '/vagrant/local-config-db.php' ) ) {
+	$original_table_prefix = $table_prefix ?? 'wp_';
+
 	 // @codingStandardsIgnoreStart
 	define( 'HM_ENV_ARCHITECTURE', 'chassis' );
 	require_once '/vagrant/local-config-db.php';
 	require_once '/vagrant/local-config-extensions.php';
 	 // @codingStandardsIgnoreEnd
+
+	$table_prefix = $original_table_prefix;
 
 	// When Chassis is configured with subdomains for hosts, it will attempt to load
 	// a file via /vagrant/local-config-extensions.php that will register a filter
