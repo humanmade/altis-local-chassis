@@ -17,9 +17,12 @@ if ( file_exists( '/vagrant/local-config-extensions.php' ) ) {
 	defined( 'ABSPATH' ) or define( 'ABSPATH', '/chassis/wordpress/' );
 	defined( 'WP_CONTENT_DIR' ) or define( 'WP_CONTENT_DIR', '/chassis/content' );
 
-	require_once '/vagrant/local-config-extensions.php';
-	// @codingStandardsIgnoreEnd
+	if ( empty( $_SERVER['HTTP_HOST'] ) ) {
+		$_SERVER['HTTP_HOST'] = 'altis.local';
+	}
 
+	require_once '/vagrant/local-config-extensions.php';
+	 // @codingStandardsIgnoreEnd
 
 	// When Chassis is configured with subdomains for hosts, it will attempt to load
 	// a file via /vagrant/local-config-extensions.php that will register a filter
