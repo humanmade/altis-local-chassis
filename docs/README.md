@@ -7,7 +7,9 @@
 
 ## Configuration
 
-It is possible to configure the host names for your local environment through the `composer.json` file. This should be done before running the setup steps below, otherwise you may need to edit the generated `chassis/config.local.yaml` file directly.
+It is possible to extend the default configuration for your local environment through the `composer.json` file. The values you can set correspond to those found in the Chassis documentation. In most cases you won't need to change anything here.
+
+The following example adds some custom hosts and an extension:
 
 ```json
 {
@@ -19,6 +21,9 @@ It is possible to configure the host names for your local environment through th
 						"project.local",
 						"subdomain.project.local",
 						"alt-project.local"
+					],
+					"extensions": [
+						"xdebug"
 					]
 				}
 			}
@@ -53,6 +58,7 @@ A number of convenience commands are available:
 * `composer chassis status` - Displays the status of the virtual machine.
 * `composer chassis secure` - Installs the generated SSL certificate to your trusted certificate store.
 * `composer chassis shell` - Logs in to the virtual machine.
+* `composer chassis provision` - Updates the `config.local.yaml` file and re-provisions the machine.
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
 
@@ -70,7 +76,9 @@ We recommend the following common development tools:
 * [phpdbg](https://github.com/Chassis/phpdbg) - Installs phpdbg for interactive command-line debugging
 * [Mailhog](https://github.com/Chassis/MailHog) - Captures outbound email from Altis and provides a fake inbox
 
-Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) for information about installing additional extensions.
+You can add extra extensions by adding them to the project's `composer.json` config as shown in the [configuration section of this page](#Configuration) and running `composer chassis provision`.
+
+Consult the [Chassis documentation](http://docs.chassis.io/en/latest/extend/) for further information about installing additional extensions.
 
 
 ## Using HTTPS locally

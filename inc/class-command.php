@@ -39,8 +39,7 @@ class Command extends BaseCommand {
 	 * @return string Path to the Chassis directory
 	 */
 	protected function get_chassis_dir() {
-		$root = dirname( $this->getComposer()->getConfig()->getConfigSource()->getName() );
-		return $root . DIRECTORY_SEPARATOR . CHASSIS_DIR;
+		return $this->get_root_dir() . DIRECTORY_SEPARATOR . CHASSIS_DIR;
 	}
 
 	/**
@@ -70,6 +69,9 @@ class Command extends BaseCommand {
 
 			case 'shell':
 				return $this->shell( $input, $output );
+
+			case 'provision':
+				return $this->provision( $input, $output );
 
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
@@ -106,33 +108,8 @@ class Command extends BaseCommand {
 			return $status;
 		}
 
-		// Get project host names from config.
-		$hosts = $this->get_project_hosts();
-
-		// Write the default config.
-		$config = [
-			'machine_name' => $hosts[0],
-			'php' => '7.2',
-			'paths' => [
-				'base' => '..',
-				'wp' => 'wordpress',
-				'content' => 'content',
-			],
-			'hosts' => $hosts,
-			'multisite' => true,
-			'extensions' => [
-				'humanmade/platform_chassis_extension',
-			],
-			'elasticsearch' => [
-				'plugins' => [
-					'analysis-icu',
-					'ingest-attachment',
-				],
-			],
-		];
-		$yaml = Yaml::dump( $config );
-		// @codingStandardsIgnoreLine
-		$success = file_put_contents( $chassis_dir . DIRECTORY_SEPARATOR . 'config.local.yaml', $yaml );
+		// Create the default config file.
+		$success = $this->write_config_file();
 		if ( ! $success ) {
 			$output->writeln( '<error>Could not write Chassis config</error>' );
 			return 1;
@@ -259,21 +236,78 @@ class Command extends BaseCommand {
 	}
 
 	/**
-	 * Get the name of the project host names from the local config.
+	 * Command to update the config.local.yaml file and re-provision.
+	 *
+	 * @param InputInterface $input Command input object.
+	 * @param OutputInterface $output Command output object.
+	 * @return int
+	 */
+	protected function provision( InputInterface $input, OutputInterface $output ) {
+		$success = $this->write_config_file();
+		if ( ! $success ) {
+			$output->writeln( '<error>Could not write Chassis config</error>' );
+			return 1;
+		}
+		return $this->run_command( 'vagrant provision' );
+	}
+
+	/**
+	 * Get the root directory path for the project.
+	 *
+	 * @return string
+	 */
+	protected function get_root_dir() : string {
+		return dirname( $this->getComposer()->getConfig()->getConfigSource()->getName() );
+	}
+
+	/**
+	 * Get the Local Chassis config from composer.json.
 	 *
 	 * @return array
 	 */
-	protected function get_project_hosts() : array {
+	protected function get_config() : array {
+		// @codingStandardsIgnoreLine
+		$json = file_get_contents( $this->get_root_dir() . DIRECTORY_SEPARATOR . 'composer.json' );
+		$composer_json = json_decode( $json, true );
 
-		$composer_json = json_decode( file_get_contents( getcwd() . '/composer.json' ), true );
+		return (array) $composer_json['extra']['altis']['modules']['local-chassis'] ?? [];
+	}
 
-		if ( isset( $composer_json['extra']['altis']['modules']['local-chassis']['hosts'] ) ) {
-			$hosts = (array) $composer_json['extra']['altis']['modules']['local-chassis']['hosts'];
-		} else {
-			$hosts = [ basename( getcwd() ) ];
-		}
+	/**
+	 * Writes the config.local.yaml file with Altis customisations.
+	 *
+	 * @return bool Returns false if the file write fails.
+	 */
+	protected function write_config_file() : bool {
+		// Write the default config.
+		$config = [
+			'php' => '7.2',
+			'paths' => [
+				'base' => '..',
+				'wp' => 'wordpress',
+				'content' => 'content',
+			],
+			'hosts' => [
+				basename( $this->get_root_dir() ),
+			],
+			'multisite' => true,
+			'extensions' => [
+				'humanmade/platform_chassis_extension',
+			],
+			'elasticsearch' => [
+				'plugins' => [
+					'analysis-icu',
+					'ingest-attachment',
+				],
+			],
+		];
 
-		$hosts = array_map( function ( $host ) {
+		// Merge config from composer.json.
+		$overrides = $this->get_config();
+		$config = $this->merge_config( $config, $overrides );
+
+		// Sanitise hosts.
+		$config['hosts'] = array_map( function ( $host ) {
 			// Ensure .local suffixes.
 			if ( ! preg_match( '/\.local$/', $host ) ) {
 				$host = "{$host}.local";
@@ -281,8 +315,49 @@ class Command extends BaseCommand {
 			// Sanitize host name.
 			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
 			return $host;
-		}, $hosts );
+		}, $config['hosts'] );
 
-		return $hosts;
+		// Set the machine name.
+		$config['machine_name'] = $config['hosts'][0];
+
+		// Remove the enabled setting.
+		unset( $config['enabled'] );
+
+		// Convert to YAML.
+		$yaml = Yaml::dump( $config );
+
+		// @codingStandardsIgnoreLine
+		return file_put_contents( $this->get_chassis_dir() . DIRECTORY_SEPARATOR . 'config.local.yaml', $yaml );
 	}
+
+	/**
+	 * Merges two configuration arrays together, overriding the first or adding
+	 * to it with items from the second.
+	 *
+	 * @param array $config The default config array.
+	 * @param array $overrides The config to merge in.
+	 * @return array
+	 */
+	protected function merge_config( array $config, array $overrides ) : array {
+		$merged = $config;
+		foreach ( $overrides as $key => $value ) {
+			if ( is_string( $key ) ) {
+				if ( is_array( $value ) ) {
+					// Recursively merge arrays.
+					$merged[ $key ] = $this->merge_config( $merged[ $key ], $value );
+				} else {
+					// Overwrite scalar values directly.
+					$merged[ $key ] = $value;
+				}
+			} else {
+				// Merge numerically keyed arrays directly and remove empty/duplicate items.
+				$merged = array_merge( $merged, (array) $overrides );
+				$merged = array_filter( $merged );
+				$merged = array_unique( $merged );
+				break;
+			}
+		}
+		return $merged;
+	}
+
 }
