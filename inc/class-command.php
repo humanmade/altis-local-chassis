@@ -237,6 +237,10 @@ class Command extends BaseCommand {
 
 	/**
 	 * Command to update the config.local.yaml file and re-provision.
+	 *
+	 * @param InputInterface $input Command input object.
+	 * @param OutputInterface $output Command output object.
+	 * @return int
 	 */
 	protected function provision( InputInterface $input, OutputInterface $output ) {
 		$success = $this->write_config_file();
@@ -346,7 +350,7 @@ class Command extends BaseCommand {
 					$merged[ $key ] = $value;
 				}
 			} else {
-				// Merge numerically keyed arrays directly and remove empty/dupliocate items.
+				// Merge numerically keyed arrays directly and remove empty/duplicate items.
 				$merged = array_merge( $merged, (array) $overrides );
 				$merged = array_filter( $merged );
 				$merged = array_unique( $merged );
