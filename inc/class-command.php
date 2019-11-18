@@ -247,9 +247,9 @@ class Command extends BaseCommand {
 	 */
 	protected function exec( InputInterface $input, OutputInterface $output ) {
 		$command = implode( ' ', $input->getArgument( 'options' ) );
-		$command = escapeshellcmd( $command );
+		$command = escapeshellarg( "cd /chassis && $command" );
 
-		return $this->run_command( sprintf( 'vagrant ssh -c "cd /chassis && %s"', $command ) );
+		return $this->run_command( sprintf( 'vagrant ssh -c %s', $command ) );
 	}
 
 	/**

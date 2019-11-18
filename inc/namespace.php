@@ -35,6 +35,9 @@ function set_file_path_map( array $map ) : array {
 	return $map;
 }
 
+/**
+ * Configure and bootstrap the Chassis environment.
+ */
 function load_chassis() {
 	if ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) {
 		define( 'DB_NAME', 'wordpress' ); // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
