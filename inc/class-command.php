@@ -33,6 +33,28 @@ class Command extends BaseCommand {
 			'options',
 			InputArgument::IS_ARRAY
 		);
+		$this->setHelp(
+			<<<EOT
+To set up Local Chassis:
+    init
+Start the server:
+    start
+Stop the server:
+    stop
+View status of the server:
+    status
+Install HTTPS certificate:
+    secure
+Apply configuration changes:
+    provision
+Run any shell command on the VM:
+    exec -- <command>             eg: exec -- vendor/bin/phpcs
+Open a shell:
+    shell
+Upgrade Local Chassis to the latest version:
+    upgrade
+EOT
+		);
 	}
 
 	/**
@@ -79,6 +101,10 @@ class Command extends BaseCommand {
 
 			case 'provision':
 				return $this->provision( $input, $output );
+
+			case 'update':
+			case 'upgrade':
+				return $this->upgrade( $input, $output );
 
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
@@ -266,6 +292,58 @@ class Command extends BaseCommand {
 			return 1;
 		}
 		return $this->run_command( 'vagrant provision' );
+	}
+
+	/**
+	 * Command to upgrade chassis and re provision the VM.
+	 *
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int Status code to return.
+	 */
+	protected function upgrade( InputInterface $input, OutputInterface $output ) {
+		$output->writeln( '<info>Updating chassis...</>' );
+
+		// Update chassis.
+		$failed = $this->run_command( 'git pull origin master' );
+		if ( $failed ) {
+			$output->writeln( '<error>Could not pull latest master from GitHub. Make sure you have a clean checkout of chassis on the master branch.</>' );
+			return $failed;
+		}
+		$failed = $this->run_command( 'git submodule update --init --recursive' );
+		if ( $failed ) {
+			$output->writeln( '<error>Could not update submodules.</>' );
+			return $failed;
+		}
+
+		// Clean extensions directory.
+		$os = php_uname();
+		if ( strpos( $os, 'Darwin' ) !== false ) {
+			$failed = $this->run_command( 'rm -rf extensions' );
+		} elseif ( strpos( $os, 'Windows' ) !== false ) {
+			$failed = $this->run_command( 'rmdir extensions' );
+		}
+		if ( $failed ) {
+			$output->writeln( '<error>Unable to clean existing extensions.</>' );
+			return $failed;
+		}
+		$failed = $this->run_command( 'git checkout -- .' );
+		if ( $failed ) {
+			$output->writeln( '<error>Unable to restore default extension, try running `cd chassis && git checkout reset --hard HEAD`.</>' );
+			return $failed;
+		}
+
+		// Bring up the machine and re-provision it.
+		$this->write_config_file();
+		$failed = $this->run_command( 'vagrant reload --provision' );
+		if ( $failed ) {
+			$output->writeln( '<error>There was a problem re provisioning your VM. Please check the output above for specific errors.</>' );
+			return $failed;
+		}
+
+		$output->writeln( '<info>Success!</>' );
+
+		return 0;
 	}
 
 	/**
