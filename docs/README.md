@@ -60,6 +60,7 @@ A number of convenience commands are available:
 * `composer chassis shell` - Logs in to the virtual machine.
 * `composer chassis exec -- <command>` - Run a command on the virtual machine.
 * `composer chassis provision` - Updates the `config.local.yaml` file and re-provisions the machine.
+* `composer chassis upgrade` - Upgrade Chassis and the extensions. _Note this will remove any extensions added manually._
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
 
