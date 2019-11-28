@@ -287,7 +287,7 @@ class Command extends BaseCommand {
 		$json = file_get_contents( $this->get_root_dir() . DIRECTORY_SEPARATOR . 'composer.json' );
 		$composer_json = json_decode( $json, true );
 
-		return (array) $composer_json['extra']['altis']['modules']['local-chassis'] ?? [];
+		return (array) ( $composer_json['extra']['altis']['modules']['local-chassis'] ?? [] );
 	}
 
 	/**
