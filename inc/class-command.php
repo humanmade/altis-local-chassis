@@ -418,8 +418,18 @@ EOT
 		// Remove the enabled setting.
 		unset( $config['enabled'] );
 
+		// Push comment on to front of file.
+		$config = array_merge( [
+			'notice' => implode( "\n", [
+				'# THIS FILE IS MANAGED BY ALTIS, ANY CHANGES MADE MAY BE LOST',
+				'#',
+				'# Find out how to modify this file through config here:',
+				'# https://www.altis-dxp.com/resources/docs/local-chassis/',
+			] ),
+		], $config );
+
 		// Convert to YAML.
-		$yaml = Yaml::dump( $config );
+		$yaml = Yaml::dump( $config, 2, 4, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK );
 
 		// @codingStandardsIgnoreLine
 		return file_put_contents( $this->get_chassis_dir() . DIRECTORY_SEPARATOR . 'config.local.yaml', $yaml );
