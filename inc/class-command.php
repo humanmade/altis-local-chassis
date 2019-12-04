@@ -382,9 +382,6 @@ EOT
 				'wp' => 'wordpress',
 				'content' => 'content',
 			],
-			'hosts' => [
-				basename( $this->get_root_dir() ),
-			],
 			'multisite' => true,
 			'extensions' => [
 				'humanmade/platform_chassis_extension',
@@ -400,6 +397,11 @@ EOT
 		// Merge config from composer.json.
 		$overrides = $this->get_config();
 		$config = $this->merge_config( $config, $overrides );
+
+		// Add a default host if none set.
+		if ( ! isset( $config['hosts'] ) ) {
+			$config['hosts'] = basename( $this->get_root_dir() );
+		}
 
 		// Sanitise hosts.
 		$config['hosts'] = array_map( function ( $host ) {
