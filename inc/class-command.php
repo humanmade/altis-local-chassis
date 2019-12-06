@@ -195,7 +195,15 @@ EOT
 	 * Command to start the virtual machine
 	 */
 	protected function start( InputInterface $input, OutputInterface $output ) {
-		return $this->run_command( 'vagrant up' );
+		$hosts = $this->get_project_hosts();
+		$status = $this->run_command( 'vagrant up' );
+
+		if ( $status === 0 ) {
+			$output->writeln( '<info>Setup complete!</>' );
+			$output->writeln( '<info>To access your site\'s admin visit: </> <comment>http://' . $hosts[0] . '/wp-admin/</>' );
+			$output->writeln( '<info>WP Username:</>	<comment>admin</>' );
+			$output->writeln( '<info>WP Password:</>	<comment>password</>' );
+		}
 	}
 
 	/**
