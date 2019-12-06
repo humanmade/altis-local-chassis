@@ -23,6 +23,7 @@ class Command extends BaseCommand {
 	 */
 	protected function configure() {
 		$this->setName( 'chassis' );
+		$this->setAliases( [ 'local-chassis' ] );
 		$this->setDescription( 'Set up and run Chassis' );
 		$this->addArgument(
 			'subcommand',
