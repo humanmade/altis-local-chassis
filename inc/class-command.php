@@ -158,7 +158,11 @@ EOT
 			return;
 		}
 
-		$this->start( $input, $output );
+		$status = $this->start( $input, $output );
+		if ( $status !== 0 ) {
+			$output->writeln( '<info>Virtual machine could not be installed or launched.</>' );
+			return;
+		}
 
 		// And run the initial setup, if the user wants to.
 		$question = new ConfirmationQuestion( 'Install HTTPS certificate? [Y/n] ', true );
@@ -166,7 +170,11 @@ EOT
 			return;
 		}
 
-		$this->secure( $input, $output );
+		$status = $this->secure( $input, $output );
+		if ( $status !== 0 ) {
+			$output->writeln( '<info>HTTPS certificate could not be installed.</>' );
+			return;
+		}
 
 		return;
 	}
