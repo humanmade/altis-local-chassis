@@ -199,11 +199,13 @@ EOT
 		$status = $this->run_command( 'vagrant up' );
 
 		if ( $status === 0 ) {
-			$output->writeln( '<info>Setup complete!</>' );
-			$output->writeln( '<info>To access your site\'s admin visit: </> <comment>http://' . $hosts[0] . '/wp-admin/</>' );
-			$output->writeln( '<info>WP Username:</>	<comment>admin</>' );
-			$output->writeln( '<info>WP Password:</>	<comment>password</>' );
+			$output->writeln( '<info>Start up complete!</>' );
+			$output->writeln( '<info>To access your site\'s admin visit:</> <comment>http://' . $hosts[0] . '/wp-admin/</>' );
+			$output->writeln( '<info>WP Username:</> <comment>admin</>' );
+			$output->writeln( '<info>WP Password:</> <comment>password</>' );
 		}
+
+		return $status;
 	}
 
 	/**
@@ -378,6 +380,36 @@ EOT
 	}
 
 	/**
+	 * Gets sanitised project host names with a default fallback based
+	 * on the project directory name.
+	 *
+	 * @return array
+	 */
+	protected function get_project_hosts() : array {
+		$config = $this->get_config();
+
+		// Add a default host if none set.
+		if ( ! isset( $config['hosts'] ) ) {
+			$hosts = [ basename( $this->get_root_dir() ) ];
+		} else {
+			$hosts = $config['hosts'];
+		}
+
+		// Sanitise hosts.
+		$hosts = array_map( function ( $host ) {
+			// Ensure .local suffixes.
+			if ( ! preg_match( '/\.local$/', $host ) ) {
+				$host = "{$host}.local";
+			}
+			// Sanitize host name.
+			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
+			return $host;
+		}, $hosts );
+
+		return $hosts;
+	}
+
+	/**
 	 * Writes the config.local.yaml file with Altis customisations.
 	 *
 	 * @return bool Returns false if the file write fails.
@@ -407,21 +439,8 @@ EOT
 		$overrides = $this->get_config();
 		$config = $this->merge_config( $config, $overrides );
 
-		// Add a default host if none set.
-		if ( ! isset( $config['hosts'] ) ) {
-			$config['hosts'] = basename( $this->get_root_dir() );
-		}
-
-		// Sanitise hosts.
-		$config['hosts'] = array_map( function ( $host ) {
-			// Ensure .local suffixes.
-			if ( ! preg_match( '/\.local$/', $host ) ) {
-				$host = "{$host}.local";
-			}
-			// Sanitize host name.
-			$host = preg_replace( '/[^a-z0-9\-\.]/i', '', $host );
-			return $host;
-		}, $config['hosts'] );
+		// Set hosts.
+		$config['hosts'] = $this->get_project_hosts();
 
 		// Set the machine name.
 		$config['machine_name'] = $config['hosts'][0];
