@@ -161,7 +161,7 @@ EOT
 
 		$status = $this->start( $input, $output );
 		if ( $status !== 0 ) {
-			$output->writeln( '<info>Virtual machine could not be installed or launched.</>' );
+			$output->writeln( '<error>Virtual machine could not be installed or launched.</>' );
 			return $status;
 		}
 
@@ -173,7 +173,7 @@ EOT
 
 		$status = $this->secure( $input, $output );
 		if ( $status !== 0 ) {
-			$output->writeln( '<info>HTTPS certificate could not be installed.</>' );
+			$output->writeln( '<error>HTTPS certificate could not be installed.</>' );
 			return $status;
 		}
 
