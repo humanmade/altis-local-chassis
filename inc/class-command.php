@@ -490,7 +490,7 @@ EOT
 			if ( is_string( $key ) ) {
 				if ( is_array( $value ) ) {
 					// Recursively merge arrays.
-					$merged[ $key ] = $this->merge_config( $merged[ $key ], $value );
+					$merged[ $key ] = $this->merge_config( $merged[ $key ] ?? [], $value );
 				} else {
 					// Overwrite scalar values directly.
 					$merged[ $key ] = $value;
