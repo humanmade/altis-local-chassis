@@ -10,6 +10,7 @@
 	],
 	"type": "composer-plugin",
 	"require": {
+		"php": ">=7.0",
 		"composer-plugin-api": "^1.1",
 		"symfony/yaml": "^4.2"
 	},
