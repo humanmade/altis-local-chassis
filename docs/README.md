@@ -112,3 +112,8 @@ Because the Firefox browser uses its own certificate store you will either need 
 1. Open Firefox
 1. Browse to `about:config`
 1. Set `security.enterprise_roots.enabled` to true
+
+## Troubleshooting
+
+Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/latest/reference/#troubleshooting)
+
