@@ -29,15 +29,17 @@ if ( file_exists( '/vagrant/local-config-db.php' ) ) {
 	}
 }
 
-// Don't self-initialize if this is not an Altis execution.
-if ( ! function_exists( 'add_action' ) ) {
-	return;
-}
-
-add_action( 'altis.modules.init', function () {
+function register() {
 	$default_settings = [
 		'enabled' => get_environment_architecture() === 'chassis',
 	];
 
 	register_module( 'local-chassis', __DIR__, 'Local Chassis', $default_settings );
-} );
+}
+
+// Don't self-initialize if this is not an Altis execution.
+if ( ! function_exists( 'add_action' ) ) {
+	return;
+}
+
+add_action( 'altis.modules.init', __NAMESPACE__ . '\\register' );
