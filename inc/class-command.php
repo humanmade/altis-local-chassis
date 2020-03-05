@@ -52,6 +52,7 @@ Run any shell command on the VM:
     exec -- <command>             eg: exec -- vendor/bin/phpcs
 Open a shell:
     shell
+	ssh
 Upgrade Local Chassis to the latest version:
     upgrade
 EOT
@@ -95,6 +96,7 @@ EOT
 				return $this->secure( $input, $output );
 
 			case 'shell':
+			case 'ssh':
 				return $this->shell( $input, $output );
 
 			case 'exec':
