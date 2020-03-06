@@ -52,7 +52,7 @@ Run any shell command on the VM:
     exec -- <command>             eg: exec -- vendor/bin/phpcs
 Open a shell:
     shell
-	ssh
+    ssh
 Upgrade Local Chassis to the latest version:
     upgrade
 EOT
