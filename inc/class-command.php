@@ -53,6 +53,8 @@ Run any shell command on the VM:
 Open a shell:
     shell
     ssh
+Destroy the VM:
+    destroy
 Upgrade Local Chassis to the latest version:
     upgrade
 EOT
@@ -101,6 +103,9 @@ EOT
 
 			case 'exec':
 				return $this->exec( $input, $output );
+
+			case 'destroy':
+				return $this->destroy( $input, $output );
 
 			case 'provision':
 				return $this->provision( $input, $output );
@@ -288,6 +293,13 @@ EOT
 	 */
 	protected function shell( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant ssh' );
+	}
+
+	/**
+	 * Command to destroy the virtual machine.
+	 */
+	protected function destroy( InputInterface $input, OutputInterface $output ) {
+		return $this->run_command( 'vagrant destroy' );
 	}
 
 	/**
