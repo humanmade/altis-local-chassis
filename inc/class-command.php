@@ -92,6 +92,7 @@ EOT
 				return $this->status( $input, $output );
 
 			case 'restart':
+			case 'reload':
 				return $this->restart( $input, $output );
 
 			case 'stop':
