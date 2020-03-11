@@ -57,9 +57,10 @@ A number of convenience commands are available:
 * `composer chassis stop` - Stops the virtual machine.
 * `composer chassis status` - Displays the status of the virtual machine.
 * `composer chassis secure` - Installs the generated SSL certificate to your trusted certificate store.
-* `composer chassis shell` - Logs in to the virtual machine.
 * `composer chassis destroy` - Destroys the virtual machine.
+* `composer chassis ssh\shell` - Logs in to the virtual machine.
 * `composer chassis exec -- <command>` - Run a command on the virtual machine.
+* `composer chassis restart\reload` - Restart the virtual machine.
 * `composer chassis provision` - Updates the `config.local.yaml` file and re-provisions the machine.
 * `composer chassis upgrade` - Upgrade Chassis and the extensions. _Note this will remove any extensions added manually._
 

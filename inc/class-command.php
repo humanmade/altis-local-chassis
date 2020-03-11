@@ -44,6 +44,8 @@ Stop the server:
     stop
 View status of the server:
     status
+Restart the server:
+    restart
 Install HTTPS certificate:
     secure
 Apply configuration changes:
@@ -90,6 +92,10 @@ EOT
 
 			case 'status':
 				return $this->status( $input, $output );
+
+			case 'restart':
+			case 'reload':
+				return $this->restart( $input, $output );
 
 			case 'stop':
 				return $this->stop( $input, $output );
@@ -229,6 +235,13 @@ EOT
 	 */
 	protected function status( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant status' );
+	}
+
+	/**
+	 * Command to restart the virtual machine
+	 */
+	protected function restart( InputInterface $input, OutputInterface $output ) {
+		return $this->run_command( 'vagrant reload' );
 	}
 
 	/**
