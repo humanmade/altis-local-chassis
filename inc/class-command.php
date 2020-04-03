@@ -464,7 +464,7 @@ EOT
 				'humanmade/platform_chassis_extension',
 			],
 			'elasticsearch' => [
-				'repo_version' => '6.x',
+				'repo_version' => '6',
 				'version' => '6.3.1',
 				'plugins' => [
 					'analysis-icu',
