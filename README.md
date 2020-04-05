@@ -6,7 +6,25 @@
 
 ## Local Chassis
 
-[Chassis](https://github.com/Chassis/Chassis) is an extensible local development server built on [Vagrant](https://www.vagrantup.com/).
+A local development environment for Altis projects, built on [Chassis](https://github.com/Chassis/Chassis) and [Vagrant](https://www.vagrantup.com/).
+
+## Dependencies
+
+* [Composer](https://getcomposer.org/download/)
+* [Vagrant](https://www.vagrantup.com/)
+* A supported hypervisor - we recommend [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+
+## Installation with Altis
+
+Altis Local Chassis is included by default in an Altis project, so you don't need to install anything else.
+
+## Installation without Altis
+
+Altis Local Chassis can be installed as a dependency within a Composer-based WordPress project:
+
+`composer require --dev altis/local-chassis`
+
+## Getting Started
 
 To get started once you have set up your Altis project you can run the following commands:
 
