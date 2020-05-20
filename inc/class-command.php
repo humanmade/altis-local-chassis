@@ -87,6 +87,7 @@ EOT
 			case 'init':
 				return $this->init( $input, $output );
 
+			case 'up':
 			case 'start':
 				return $this->start( $input, $output );
 
@@ -97,6 +98,7 @@ EOT
 			case 'reload':
 				return $this->restart( $input, $output );
 
+			case 'halt':
 			case 'stop':
 				return $this->stop( $input, $output );
 
