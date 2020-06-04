@@ -20,6 +20,7 @@ function set_file_path_map( array $map ) : array {
 	if ( ! file_exists( '/etc/chassis-constants' ) ) {
 		return $map;
 	}
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	$json_string = file_get_contents( '/etc/chassis-constants' );
 	$data = json_decode( $json_string, true );
 	if ( empty( $data ) ) {
