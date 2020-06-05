@@ -2,7 +2,7 @@
 /**
  * Set the architecture constant when on the VM.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 
 if ( file_exists( '/vagrant/local-config-db.php' ) ) {

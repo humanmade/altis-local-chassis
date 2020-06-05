@@ -2,7 +2,7 @@
 /**
  * Altis Local Chassis Composer Plugin.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 
 namespace Altis\Local_Chassis;
@@ -15,7 +15,7 @@ use Composer\Plugin\PluginInterface;
 /**
  * Altis Local Chassis Composer Plugin.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 class ComposerPlugin implements PluginInterface, Capable {
 	/**

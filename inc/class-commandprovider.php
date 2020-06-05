@@ -2,7 +2,7 @@
 /**
  * Altis Local Chassis Command Provider.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 
 namespace Altis\Local_Chassis;
@@ -12,7 +12,7 @@ use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
 /**
  * Altis Local Chassis Command Provider.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 class CommandProvider implements CommandProviderCapability {
 	/**

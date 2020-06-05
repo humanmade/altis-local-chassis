@@ -2,7 +2,7 @@
 /**
  * Altis Local Chassis Module.
  *
- * @package altis-local-chassis
+ * @package altis/local-chassis
  */
 
 namespace Altis\Local_Chassis; // phpcs:ignore
