@@ -1,4 +1,9 @@
 <?php
+/**
+ * Altis Local Chassis.
+ *
+ * @package altis-local-chassis
+ */
 
 namespace Altis\Local_Chassis;
 
@@ -13,7 +18,7 @@ function bootstrap() {
 /**
  * Enables Query Monitor to map paths to their original values on the host.
  *
- * @param array $map Map of guest path => host path
+ * @param array $map Map of guest path => host path.
  * @return array Adjusted mapping of folders
  */
 function set_file_path_map( array $map ) : array {

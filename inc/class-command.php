@@ -1,4 +1,9 @@
 <?php
+/**
+ * Altis Local Chassis Composer Command.
+ *
+ * @package altis-local-chassis
+ */
 
 namespace Altis\Local_Chassis;
 
@@ -75,11 +80,12 @@ EOT
 	}
 
 	/**
-	 * Wrapper command to dispatch subcommands
+	 * Wrapper command to dispatch subcommands.
 	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int Status code to return
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
+	 * @return int Status code to return.
+	 * @throws CommandNotFoundException Thrown if the specified subcommand is not found.
 	 */
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$command = $input->getArgument( 'subcommand' );
@@ -128,9 +134,9 @@ EOT
 	/**
 	 * Command to initialize a Chassis install.
 	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int Status code to return
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
+	 * @return int Status code to return.
 	 */
 	protected function init( InputInterface $input, OutputInterface $output ) {
 		$questioner = $this->getHelper( 'question' );
@@ -196,8 +202,9 @@ EOT
 	/**
 	 * Run a command in the Chassis directory.
 	 *
-	 * @param string $command Command to execute
-	 * @return int Status returned from the command
+	 * @param string $command Command to execute.
+	 * @return int Status returned from the command.
+	 * @throws Exception If chassis has not yet been downloaded.
 	 */
 	protected function run_command( $command ) {
 		$cwd = getcwd();
@@ -215,6 +222,9 @@ EOT
 
 	/**
 	 * Command to start the virtual machine
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function start( InputInterface $input, OutputInterface $output ) {
 		$hosts = $this->get_project_hosts();
@@ -231,21 +241,30 @@ EOT
 	}
 
 	/**
-	 * Command to check the virtual machine's status
+	 * Command to check the virtual machine's status.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function status( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant status' );
 	}
 
 	/**
-	 * Command to restart the virtual machine
+	 * Command to restart the virtual machine.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function restart( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant reload' );
 	}
 
 	/**
-	 * Command to stop the virtual machine
+	 * Command to stop the virtual machine.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant halt' );
@@ -253,6 +272,9 @@ EOT
 
 	/**
 	 * Command to install the generated HTTPS cert.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function secure( InputInterface $input, OutputInterface $output ) {
 		$chassis_dir = $this->get_chassis_dir();
@@ -303,6 +325,9 @@ EOT
 
 	/**
 	 * Command to ssh in to the virtual machine.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function shell( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant ssh' );
@@ -310,6 +335,9 @@ EOT
 
 	/**
 	 * Command to destroy the virtual machine.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function destroy( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant destroy' );
@@ -317,6 +345,9 @@ EOT
 
 	/**
 	 * Command to pass a command in to the virtual machine.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 */
 	protected function exec( InputInterface $input, OutputInterface $output ) {
 		$command = implode( ' ', $input->getArgument( 'options' ) );
@@ -344,8 +375,8 @@ EOT
 	/**
 	 * Command to upgrade chassis and re provision the VM.
 	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
 	 * @return int Status code to return.
 	 */
 	protected function upgrade( InputInterface $input, OutputInterface $output ) {
@@ -408,7 +439,7 @@ EOT
 	 * @return array
 	 */
 	protected function get_config() : array {
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$json = file_get_contents( $this->get_root_dir() . DIRECTORY_SEPARATOR . 'composer.json' );
 		$composer_json = json_decode( $json, true );
 
