@@ -510,7 +510,6 @@ EOT
 					'ingest-user-agent',
 					'mapper-size',
 					'mapper-murmur3',
-					'ingest-attachment',
 				],
 			],
 		];
