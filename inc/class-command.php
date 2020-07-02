@@ -512,6 +512,12 @@ EOT
 					'mapper-murmur3',
 				],
 			],
+			'database' => [
+				'name' => 'wordpress',
+				'user' => 'wordpress',
+				'password' => 'vagrantpassword',
+				'prefix' => 'wp_',
+			]
 		];
 
 		// Merge config from composer.json.
