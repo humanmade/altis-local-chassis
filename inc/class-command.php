@@ -517,7 +517,7 @@ EOT
 				'user' => 'wordpress',
 				'password' => 'vagrantpassword',
 				'prefix' => 'wp_',
-			]
+			],
 		];
 
 		// Merge config from composer.json.
