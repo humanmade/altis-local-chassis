@@ -13,6 +13,10 @@ namespace Altis\Local_Chassis;
 function bootstrap() {
 	add_filter( 'qm/output/file_path_map', __NAMESPACE__ . '\\set_file_path_map', 1 );
 	load_chassis();
+
+	// Elasticsearch package support.
+	add_filter( 'altis.search.packages_dir', __NAMESPACE__ . '\\set_search_packages_dir' );
+	add_filter( 'altis.search.create_package_id', __NAMESPACE__ . '\\set_search_package_id', 10, 3 );
 }
 
 /**
@@ -73,4 +77,25 @@ function load_chassis() {
 		unset( $GLOBALS['wp_filter']['muplugins_loaded'] );
 		add_action( 'muplugins_loaded', $function );
 	}
+}
+
+/**
+ * Override Elasticsearch package storage location ES config directory.
+ *
+ * @return string
+ */
+function set_search_packages_dir() : string {
+	return '/usr/share/elasticsearch/config/packages';
+}
+
+/**
+ * Rewrite package files IDs for Chassis.
+ *
+ * @param string|null $id The package ID used for the file path in ES.
+ * @param string $slug The package slug.
+ * @param string $file The package file path on S3.
+ * @return string|null
+ */
+function set_search_package_id( $id, string $slug, string $file ) : ?string {
+	return sprintf( 'config/packages/%s', basename( $file ) );
 }
