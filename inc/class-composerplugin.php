@@ -42,7 +42,7 @@ class ComposerPlugin implements PluginInterface, Capable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function deactivate( Composer $composer, IOInterface $io) {
+	public function deactivate( Composer $composer, IOInterface $io ) {
 	}
 
 	/**
