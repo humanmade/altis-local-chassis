@@ -82,7 +82,7 @@ EOT
 	/**
 	 * Wrapper command to dispatch subcommands.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 * @return int Status code to return.
 	 * @throws CommandNotFoundException Thrown if the specified subcommand is not found.
@@ -136,7 +136,7 @@ EOT
 	/**
 	 * Command to initialize a Chassis install.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 * @return int Status code to return.
 	 */
@@ -158,6 +158,7 @@ EOT
 			escapeshellarg( REPO ),
 			escapeshellarg( $chassis_dir )
 		);
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
 		passthru( $command, $status );
 		if ( $status !== 0 ) {
 			$output->writeln( '<error>Could not clone Chassis successfully</error>' );
@@ -216,6 +217,7 @@ EOT
 		}
 
 		chdir( $chassis_dir );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
 		passthru( $command, $status );
 		chdir( $cwd );
 
@@ -225,7 +227,7 @@ EOT
 	/**
 	 * Command to start the virtual machine
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function start( InputInterface $input, OutputInterface $output ) {
@@ -245,7 +247,7 @@ EOT
 	/**
 	 * Command to check the virtual machine's status.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function status( InputInterface $input, OutputInterface $output ) {
@@ -255,7 +257,7 @@ EOT
 	/**
 	 * Command to restart the virtual machine.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function restart( InputInterface $input, OutputInterface $output ) {
@@ -265,7 +267,7 @@ EOT
 	/**
 	 * Command to stop the virtual machine.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function stop( InputInterface $input, OutputInterface $output ) {
@@ -275,7 +277,7 @@ EOT
 	/**
 	 * Command to install the generated HTTPS cert.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function secure( InputInterface $input, OutputInterface $output ) {
@@ -328,7 +330,7 @@ EOT
 	/**
 	 * Command to ssh in to the virtual machine.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function shell( InputInterface $input, OutputInterface $output ) {
@@ -338,7 +340,7 @@ EOT
 	/**
 	 * Command to destroy the virtual machine.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function destroy( InputInterface $input, OutputInterface $output ) {
@@ -348,7 +350,7 @@ EOT
 	/**
 	 * Command to pass a command in to the virtual machine.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 */
 	protected function exec( InputInterface $input, OutputInterface $output ) {
@@ -361,7 +363,7 @@ EOT
 	/**
 	 * Command to update the config.local.yaml file and re-provision.
 	 *
-	 * @param InputInterface $input Command input object.
+	 * @param InputInterface  $input Command input object.
 	 * @param OutputInterface $output Command output object.
 	 * @return int
 	 */
@@ -377,7 +379,7 @@ EOT
 	/**
 	 * Command to upgrade chassis and re provision the VM.
 	 *
-	 * @param InputInterface $input Command input.
+	 * @param InputInterface  $input Command input.
 	 * @param OutputInterface $output Command output.
 	 * @return int Status code to return.
 	 */

@@ -42,7 +42,7 @@ class ComposerPlugin implements PluginInterface, Capable {
 	/**
 	 * Deactivation hook.
 	 *
-	 * @param Composer $composer Composer object.
+	 * @param Composer    $composer Composer object.
 	 * @param IOInterface $io Composer disk interface.
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class ComposerPlugin implements PluginInterface, Capable {
 	/**
 	 * Uninstall hook.
 	 *
-	 * @param Composer $composer Composer object.
+	 * @param Composer    $composer Composer object.
 	 * @param IOInterface $io Composer disk interface.
 	 * @return void
 	 */
