@@ -385,7 +385,7 @@ EOT
 		$output->writeln( '<info>Updating chassis...</>' );
 
 		// Update chassis.
-		$failed = $this->run_command( 'git pull origin master' );
+		$failed = $this->run_command( 'git pull origin main' );
 		if ( $failed ) {
 			$output->writeln( '<error>Could not pull latest master from GitHub. Make sure you have a clean checkout of chassis on the master branch.</>' );
 			return $failed;
