@@ -21,7 +21,7 @@ class ComposerPlugin implements PluginInterface, Capable {
 	/**
 	 * Plugin activation callback.
 	 *
-	 * @param Composer $composer Composer object.
+	 * @param Composer    $composer Composer object.
 	 * @param IOInterface $io Composer disk interface.
 	 * @return void
 	 */
@@ -40,13 +40,21 @@ class ComposerPlugin implements PluginInterface, Capable {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Deactivation hook.
+	 *
+	 * @param Composer $composer Composer object.
+	 * @param IOInterface $io Composer disk interface.
+	 * @return void
 	 */
 	public function deactivate( Composer $composer, IOInterface $io ) {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Uninstall hook.
+	 *
+	 * @param Composer $composer Composer object.
+	 * @param IOInterface $io Composer disk interface.
+	 * @return void
 	 */
 	public function uninstall( Composer $composer, IOInterface $io ) {
 	}

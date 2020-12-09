@@ -92,8 +92,8 @@ function set_search_packages_dir() : string {
  * Rewrite package files IDs for Chassis.
  *
  * @param string|null $id The package ID used for the file path in ES.
- * @param string $slug The package slug.
- * @param string $file The package file path on S3.
+ * @param string      $slug The package slug.
+ * @param string      $file The package file path on S3.
  * @return string|null
  */
 function set_search_package_id( $id, string $slug, string $file ) : ?string {
