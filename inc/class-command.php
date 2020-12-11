@@ -158,6 +158,7 @@ EOT
 			escapeshellarg( REPO ),
 			escapeshellarg( $chassis_dir )
 		);
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
 		passthru( $command, $status );
 		if ( $status !== 0 ) {
 			$output->writeln( '<error>Could not clone Chassis successfully</error>' );
@@ -216,6 +217,7 @@ EOT
 		}
 
 		chdir( $chassis_dir );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
 		passthru( $command, $status );
 		chdir( $cwd );
 
