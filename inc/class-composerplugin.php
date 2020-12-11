@@ -40,9 +40,9 @@ class ComposerPlugin implements PluginInterface, Capable {
 	}
 
 	/**
-	 * Deactivation hook.
+	 * {@inheritDoc}
 	 *
-	 * @param Composer    $composer Composer object.
+	 * @param Composer $composer Composer object.
 	 * @param IOInterface $io Composer disk interface.
 	 * @return void
 	 */
@@ -50,9 +50,9 @@ class ComposerPlugin implements PluginInterface, Capable {
 	}
 
 	/**
-	 * Uninstall hook.
+	 * {@inheritDoc}
 	 *
-	 * @param Composer    $composer Composer object.
+	 * @param Composer $composer Composer object.
 	 * @param IOInterface $io Composer disk interface.
 	 * @return void
 	 */
