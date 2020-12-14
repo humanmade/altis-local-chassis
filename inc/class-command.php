@@ -488,7 +488,7 @@ EOT
 	protected function write_config_file() : bool {
 		// Write the default config.
 		$config = [
-			'php' => '7.2',
+			'php' => '7.4',
 			'paths' => [
 				'base' => '..',
 				'wp' => 'wordpress',
