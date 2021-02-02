@@ -526,6 +526,11 @@ EOT
 		$overrides = $this->get_config();
 		$config = $this->merge_config( $config, $overrides );
 
+		// The ingest-user-agent plugin is not available for ES 7, it's build into core.
+		if ( version_compare( $config['elasticsearch']['version'], '7', '>=' ) ) {
+			$config['elasticsearch']['plugins'] = array_values( array_diff( $config['elasticsearch']['plugins'], [ 'ingest-user-agent' ] ) );
+		}
+
 		// Set hosts.
 		$config['hosts'] = $this->get_project_hosts();
 
