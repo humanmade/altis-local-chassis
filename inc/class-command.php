@@ -398,10 +398,10 @@ EOT
 
 		// Clean extensions directory.
 		$os = php_uname();
-		if ( strpos( $os, 'Darwin' ) !== false ) {
-			$failed = $this->run_command( 'rm -rf extensions' );
-		} elseif ( strpos( $os, 'Windows' ) !== false ) {
+		if ( strpos( $os, 'Windows' ) !== false ) {
 			$failed = $this->run_command( 'rmdir extensions' );
+		} else {
+			$failed = $this->run_command( 'rm -rf extensions' );
 		}
 		if ( $failed ) {
 			$output->writeln( '<error>Unable to clean existing extensions.</>' );
