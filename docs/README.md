@@ -34,7 +34,7 @@ The following example adds some custom hosts and an extension:
 
 ### PHP Version
 
-Currently Altis cloud environments are set up using PHP 7.2 but will soon be updated to PHP 7.4. To start testing your application for PHP 7.4 compatibility locally you can opt-in to PHP 7.4 using the following configuration:
+From Altis v7 onwards the minimum required version of PHP is 7.4. If needed you can change the PHP version using the following configuration:
 
 ```json
 {
@@ -42,7 +42,7 @@ Currently Altis cloud environments are set up using PHP 7.2 but will soon be upd
 		"altis": {
 			"modules": {
 				"local-chassis": {
-					"php": "7.4"
+					"php": "8.0"
 				}
 			}
 		}
