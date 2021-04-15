@@ -520,6 +520,9 @@ EOT
 				'password' => 'vagrantpassword',
 				'prefix' => 'wp_',
 			],
+			'libv8' => '7.5',
+			'v8js' => '2.1.2',
+			'mcrypt' => '1.0.4',
 		];
 
 		// Merge config from composer.json.
