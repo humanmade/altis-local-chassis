@@ -50,6 +50,8 @@ From Altis v7 onwards the minimum required version of PHP is 7.4. If needed you 
 }
 ```
 
+Please note that not all Chassis extensions are guaranteed to work a version of PHP other than the default for your current version of Altis.
+
 
 ## Setup
 
