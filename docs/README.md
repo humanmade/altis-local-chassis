@@ -137,4 +137,4 @@ Because the Firefox browser uses its own certificate store you will either need 
 
 ## Troubleshooting
 
-Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/latest/reference/#troubleshooting)
+Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/main/reference/#troubleshooting)
