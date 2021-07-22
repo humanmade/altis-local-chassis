@@ -7,6 +7,9 @@
 
 namespace Altis\Local_Chassis;
 
+use Altis;
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Bootstrap.
  */
@@ -49,6 +52,11 @@ function set_file_path_map( array $map ) : array {
  * Configure and bootstrap the Chassis environment.
  */
 function load_chassis() {
+	if ( empty( $_SERVER['HTTP_HOST'] ) ) {
+		$config = Yaml::parseFile( Altis\ROOT_DIR . '/chassis/config.local.yaml' );
+		$_SERVER['HTTP_HOST'] = $config['hosts'][0] ?? '';
+	}
+
 	if ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) {
 		define( 'DB_NAME', 'wordpress' ); // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
 		define( 'DB_USER', 'wordpress' ); // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
