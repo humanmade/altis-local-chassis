@@ -499,8 +499,8 @@ EOT
 				'humanmade/platform_chassis_extension',
 			],
 			'elasticsearch' => [
-				'repo_version' => '6',
-				'version' => '6.3.1',
+				'repo_version' => '7',
+				'version' => '7.10.2',
 				'plugins' => [
 					'analysis-icu',
 					'analysis-kuromoji',
@@ -530,7 +530,7 @@ EOT
 		$config = $this->merge_config( $config, $overrides );
 
 		// The ingest-user-agent plugin is not available for ES 7, it's build into core.
-		if ( version_compare( $config['elasticsearch']['version'], '7', '>=' ) ) {
+		if ( version_compare( $config['elasticsearch']['version'], '6.8', '>=' ) ) {
 			$config['elasticsearch']['plugins'] = array_values( array_diff( $config['elasticsearch']['plugins'], [ 'ingest-user-agent' ] ) );
 		}
 

@@ -52,6 +52,30 @@ From Altis v7 onwards the minimum required version of PHP is 7.4. If needed you 
 
 Please note that not all Chassis extensions are guaranteed to work a version of PHP other than the default for your current version of Altis.
 
+### Elasticsearch Version
+
+Altis supports Elasticsearch versions 6.2 to 7.10. The default version is currently 7.10.
+
+You may wish to configure the Elasticsearch version to match the version currently in use on your cloud environments if it has not yet been upgraded.
+
+This requires configuring 2 options for the `local-chassis` module, the `repo_version` which corresponds to the major version and `version` for the specific version. You must declare both values.
+
+```json
+{
+	"extra": {
+		"altis": {
+			"modules": {
+				"local-chassis": {
+					"elasticsearch": {
+						"repo_version": "6",
+						"version": "6.8.1"
+					}
+				}
+			}
+		}
+	}
+}
+```
 
 ## Setup
 
