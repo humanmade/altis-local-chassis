@@ -539,7 +539,7 @@ EOT
 				'# THIS FILE IS MANAGED BY ALTIS, ANY CHANGES MADE MAY BE LOST',
 				'#',
 				'# Find out how to modify this file through config here:',
-				'# https://www.altis-dxp.com/resources/docs/local-chassis/',
+				'# https://docs.altis-dxp.com/local-chassis/',
 			] ),
 		], $config );
 
