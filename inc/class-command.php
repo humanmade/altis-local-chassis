@@ -537,8 +537,10 @@ EOT
 		// Set hosts.
 		$config['hosts'] = $this->get_project_hosts();
 
-		// Set the machine name.
-		$config['machine_name'] = $config['hosts'][0];
+		// Maybe set the machine name.
+		if ( 'default' === $config['machine_name'] ) {
+			$config['machine_name'] = $config['hosts'][0];
+		}
 
 		// Remove the enabled setting.
 		unset( $config['enabled'] );
