@@ -537,8 +537,8 @@ EOT
 		// Set hosts.
 		$config['hosts'] = $this->get_project_hosts();
 
-		// Maybe set the machine name.
-		if ( 'default' === $config['machine_name'] ) {
+		// Set the machine name if not manually configured.
+		if ( ! isset( $config['machine_name'] ) ) {
 			$config['machine_name'] = $config['hosts'][0];
 		}
 
