@@ -145,46 +145,40 @@ EOT
 
 		// Check we're not overwriting it.
 		$chassis_dir = $this->get_chassis_dir();
-
 		if ( file_exists( $chassis_dir ) ) {
 			$output->writeln( sprintf( '<warning>The Chassis directory already exists at %s</warning>', $chassis_dir ) );
+			return 1;
+		}
 
-			// Ask the user if they'd like to reprovision the existing install.
-			$question = new ConfirmationQuestion( '<warning>Reprovision the existing install? [Y/n]</warning>', true );
-			if ( ! $questioner->ask( $input, $output, $question ) ) {
-				return 1;
-			}
-		} else {
-			$output->writeln( sprintf( '<info>Installing Chassis into %s</info>', $chassis_dir ) );
+		$output->writeln( sprintf( '<info>Installing Chassis into %s</info>', $chassis_dir ) );
 
-			// First, clone down Chassis.
-			$command = sprintf(
-				'git clone --recursive %s %s',
-				escapeshellarg( REPO ),
-				escapeshellarg( $chassis_dir )
-			);
-			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
-			passthru( $command, $status );
-			if ( $status !== 0 ) {
-				$output->writeln( '<error>Could not clone Chassis successfully</error>' );
-				return $status;
-			}
+		// First, clone down Chassis.
+		$command = sprintf(
+			'git clone --recursive %s %s',
+			escapeshellarg( REPO ),
+			escapeshellarg( $chassis_dir )
+		);
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_passthru
+		passthru( $command, $status );
+		if ( $status !== 0 ) {
+			$output->writeln( '<error>Could not clone Chassis successfully</error>' );
+			return $status;
+		}
 
-			// Create the default config file.
-			$success = $this->write_config_file();
-			if ( ! $success ) {
-				$output->writeln( '<error>Could not write Chassis config</error>' );
-				return 1;
-			}
+		// Create the default config file.
+		$success = $this->write_config_file();
+		if ( ! $success ) {
+			$output->writeln( '<error>Could not write Chassis config</error>' );
+			return 1;
+		}
 
-			$output->writeln( '' );
-			$output->writeln( '<info>Chassis downloaded and configured.</info>' );
+		$output->writeln( '' );
+		$output->writeln( '<info>Chassis downloaded and configured.</info>' );
 
-			// And run the initial setup, if the user wants to.
-			$question = new ConfirmationQuestion( 'Launch and install virtual machine? [Y/n] ', true );
-			if ( ! $questioner->ask( $input, $output, $question ) ) {
-				return;
-			}
+		// And run the initial setup, if the user wants to.
+		$question = new ConfirmationQuestion( 'Launch and install virtual machine? [Y/n] ', true );
+		if ( ! $questioner->ask( $input, $output, $question ) ) {
+			return;
 		}
 
 		$status = $this->start( $input, $output );
@@ -238,7 +232,7 @@ EOT
 	 */
 	protected function start( InputInterface $input, OutputInterface $output ) {
 		$hosts = $this->get_project_hosts();
-		$status = $this->run_command( 'vagrant up --provision' );
+		$status = $this->run_command( 'vagrant up' );
 
 		if ( $status === 0 ) {
 			$output->writeln( '<info>Start up complete!</>' );
