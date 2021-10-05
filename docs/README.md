@@ -161,4 +161,15 @@ Because the Firefox browser uses its own certificate store you will either need 
 
 ## Troubleshooting
 
-Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/latest/reference/#troubleshooting)
+### Certificate verification failed error during init
+
+If you get `Certificate verification failed` error during provision of the chassis environment, you'll need to install `ca-certificates` packages within the chassis box, then reprovision the environment again, using the following commands:
+
+```
+cd chassis
+vagrant ssh -c 'sudo apt-get install ca-certificates`
+cd -
+composer chassis init
+```
+
+Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/latest/reference/#troubleshooting) for further troubleshooting guides.
