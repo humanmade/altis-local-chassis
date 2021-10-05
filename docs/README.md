@@ -169,7 +169,7 @@ If you get `Certificate verification failed` error during provision of the chass
 cd chassis
 vagrant ssh -c 'sudo apt-get install ca-certificates`
 cd -
-composer chassis init
+composer chassis provision
 ```
 
 Consult the [Chassis Troubleshooting guide](https://docs.chassis.io/en/latest/reference/#troubleshooting) for further troubleshooting guides.
