@@ -238,7 +238,7 @@ EOT
 	 */
 	protected function start( InputInterface $input, OutputInterface $output ) {
 		$hosts = $this->get_project_hosts();
-		$status = $this->run_command( 'vagrant up' );
+		$status = $this->run_command( 'vagrant up --provision' );
 
 		if ( $status === 0 ) {
 			$output->writeln( '<info>Start up complete!</>' );
