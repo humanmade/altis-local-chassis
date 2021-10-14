@@ -107,6 +107,7 @@ A number of convenience commands are available:
 * `composer chassis restart|reload` - Restart the virtual machine.
 * `composer chassis provision` - Updates the `config.local.yaml` file and re-provisions the machine.
 * `composer chassis upgrade` - Upgrade Chassis and the extensions. _Note this will remove any extensions added manually._
+* `composer chassis box update` - Updates Chassis box image, this will destroy your data and start fresh.
 
 Under the hood, the Local Chassis environment is powered by [Chassis](http://chassis.io/) and [Vagrant](https://www.vagrantup.com/).
 

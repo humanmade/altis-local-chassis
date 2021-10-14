@@ -64,6 +64,8 @@ Destroy the VM:
     destroy
 Upgrade Local Chassis to the latest version:
     upgrade
+Manage Local Chassis box image:
+    box
 EOT
 		);
 	}
@@ -127,6 +129,9 @@ EOT
 			case 'update':
 			case 'upgrade':
 				return $this->upgrade( $input, $output );
+
+			case 'box':
+				return $this->box( $input, $output );
 
 			default:
 				throw new CommandNotFoundException( sprintf( 'Subcommand "%s" is not defined.', $command ) );
@@ -345,6 +350,18 @@ EOT
 	 */
 	protected function destroy( InputInterface $input, OutputInterface $output ) {
 		return $this->run_command( 'vagrant destroy' );
+	}
+
+	/**
+	 * Command to update the virtual machine box image.
+	 *
+	 * @param InputInterface $input Command input.
+	 * @param OutputInterface $output Command output.
+	 */
+	protected function box( InputInterface $input, OutputInterface $output ) {
+		$command = implode( ' ', $input->getArgument( 'options' ) );
+
+		return $this->run_command( "vagrant box $command" );
 	}
 
 	/**
